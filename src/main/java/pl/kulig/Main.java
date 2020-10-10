@@ -24,6 +24,6 @@ public class Main {
     }
 
     private static Integer getBreakLength(double lambda) {
-        return (int) Math.round(Math.log(1 - random.nextDouble())/(- lambda));
+        return (int) Math.round(100 * Math.log(1 - random.nextDouble())/(- lambda));
     }
 }
