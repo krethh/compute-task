@@ -17,13 +17,19 @@ public class Main {
         for (int i = 0; i < iterations; i++) {
             final int computation = i * i;
 
-            Thread.sleep((long) getBreakLength(lambda));
+            final Integer breakLength = getBreakLength(i, lambda);
+            System.out.println(breakLength);
+            Thread.sleep(breakLength);
         }
 
         System.out.println("Finished");
     }
 
-    private static Integer getBreakLength(double lambda) {
-        return (int) Math.round(100 * Math.log(1 - random.nextDouble())/(- lambda));
+    private static Integer getBreakLength(int i, int lambda) {
+        if (i % lambda == 0) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
