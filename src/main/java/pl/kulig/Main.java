@@ -8,18 +8,31 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         final int iterations = Integer.parseInt(System.getenv("NUMBER_ITERATIONS"));
+        int numThreads = 3;
         int lambda = 10;
 
         if (System.getenv().containsKey("LAMBDA")) {
             lambda = Integer.parseInt(System.getenv("LAMBDA"));
         }
+        if (System.getenv().containsKey("NUMBER_THREADS")) {
+            numThreads = Integer.parseInt(System.getenv("NUMBER_THREADS"));
+        }
 
-        for (int i = 0; i < iterations; i++) {
-            final int computation = i * i;
+        for (int j = 0; j < numThreads; j++) {
+            int finalLambda = lambda;
+            new Thread(() -> {
+                for (int i = 0; i < iterations; i++) {
+                    final int computation = i * i;
 
-            final Integer breakLength = getBreakLength(i, lambda);
-            System.out.println(breakLength);
-            Thread.sleep(breakLength);
+                    final Integer breakLength = getBreakLength(i, finalLambda);
+                    System.out.println(breakLength);
+                    try {
+                        Thread.sleep(breakLength);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
 
         System.out.println("Finished");
